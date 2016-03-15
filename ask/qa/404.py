@@ -1,4 +1,4 @@
-from django.http import HttpResponse 
+from django.http import HttpResponseNotFound
 
-def notfound(request, *args, **kwargs):
+def notfound(request):
 	return HttpResponseNotFound()
