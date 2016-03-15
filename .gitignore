@@ -1,0 +1,5 @@
+# Ignore python binaries
+*.pyc
+
+# Ignore git bash
+git.sh
