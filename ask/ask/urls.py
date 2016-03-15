@@ -12,6 +12,6 @@ admin.autodiscover()
 #)
 
 urlpatterns = [
-	url(r'^$', 'qa.404.notfound', name='ask-home'),
+#	url(r'^$', 'qa.404.notfound', name='ask-home'),
 	url(r'^', include('qa.urls')),
 ]
