@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ block.super }} – {{ qst.id }} 
+{% endblock %}
+
+{% block header %}{{ qst }}{% endblock %}
+
+{% block content %}
+	{% include "qst_item.html" %}
+{% endblock %}

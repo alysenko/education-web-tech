@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 class Question(models.Model):
 	title = models.CharField(max_length=255)
@@ -8,6 +9,14 @@ class Question(models.Model):
 	rating = models.IntegerField(default=0)
 	author = models.ForeignKey(User, related_name='questions')
 	likes = models.ManyToManyField(User, related_name='likes')
+
+	def url(self):
+		return reverse('question', kwargs={'id': self.id})
+
+#	def __str__(self):
+	def __unicode__(self):
+		return self.title
+
 
 class Answer(models.Model):
 	text = models.TextField()

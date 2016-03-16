@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ block.super }} – all
+{% endblock %}
+
+{% block header %}Questions{% endblock %}
+
+{% block content %}
+	{% for qst in questions %}
+		{% include "qst_list_item.html" %}
+	{% endfor %}
+{% endblock %}
+
+{% block navigation %}
+	{% include "pages.html" %}
+{% endblock %}
