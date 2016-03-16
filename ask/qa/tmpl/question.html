@@ -8,4 +8,10 @@
 
 {% block content %}
 	{% include "qst_item.html" %}
+	{% for answer in answers %}
+		<div>
+			<h3>Answer<h3>
+			<p>{{ answer.text }}</p>
+		</div>
+	{% endfor %}
 {% endblock %}

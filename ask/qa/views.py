@@ -4,7 +4,7 @@ from django.http import Http404
 from django.core.paginator import Page
 from django.core.urlresolvers import reverse
 from helpers import paginate
-from models import Question
+from models import Question, Answer
 
 def test(request, *args, **kwargs):
 	return HttpResponse('OK')
@@ -14,8 +14,11 @@ def question(request, id):
 		qst = Question.objects.get(pk=id)
 	except Post.DoesNotExist:
 		raise Http404
+	answers = Answer.objects.filter(question=qst)
+	answers = answers[:]
 	return render(request, 'question.html', {
 		'qst': qst,
+		'answers': answers,
 	})
 
 def questions(request):
