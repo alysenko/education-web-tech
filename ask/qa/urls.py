@@ -12,6 +12,6 @@ urlpatterns = [
 	url(r'^signup/', test, name='signup'),
 	url(r'^question/(?P<id>\d+)/$', question, name='question'),
 	url(r'^ask/', test, name='ask'),
-	url(r'^popular/', questions, name='popular'),
+	url(r'^popular/?page=(?P<page>\d+)$', popular, name='popular'),
 	url(r'^new/', test, name='new'),
 ]
