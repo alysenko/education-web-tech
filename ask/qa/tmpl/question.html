@@ -16,7 +16,7 @@
 	{% endfor %}
 	<form method="POST" action="/answer/">
 		<fieldset>
-			{% for field in form %}
+			{% for field in form.visible_fields %}
 				<div {% if field.errors %}style="background-color: red;"{% endif %}>
 					<label>{{ field.label }}</label>
 					<div>{{ field }}</div>

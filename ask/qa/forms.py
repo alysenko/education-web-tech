@@ -23,6 +23,12 @@ class AnswerForm(forms.ModelForm):
 	class Meta:
 		model = Answer
 		fields = ['text', 'question']
+
+	def __init__(self, *args, **kwargs):
+		super(AnswerForm, self).__init__(*args, **kwargs)
+		# Making question hidden on render
+		self.fields['question'].widget = forms.HiddenInput()
+
 	def clean_text(self):
 		if self.cleaned_data['text'] == "":
 			raise forms.ValidationError("Text is empty", code='empty')
