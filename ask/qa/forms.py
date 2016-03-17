@@ -19,7 +19,8 @@ class AskForm(forms.ModelForm):
 
 class AnswerForm(forms.Form):
 	text = forms.CharField(widget=forms.Textarea)
-	question_id = forms.IntegerField(widget=forms.HiddenInput)
+#	question_id = forms.IntegerField(widget=forms.HiddenInput)
+	question_id = forms.IntegerField()
 
 	def clean_text(self):
 		if self.cleaned_data['text'] == "":
