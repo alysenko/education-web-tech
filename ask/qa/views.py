@@ -14,7 +14,7 @@ def test(request, *args, **kwargs):
 def question(request, id):
 	try:
 		qst = Question.objects.get(pk=id)
-	except Post.DoesNotExist:
+	except Question.DoesNotExist:
 		raise Http404
 	answers = Answer.objects.filter(question=qst)
 	answers = answers[:]
@@ -60,7 +60,7 @@ def ask(request):
 #	else:
 #		raise Http404
 
-def answer(request)
+def answer(request):
 	if request.method == "POST":
 		form = forms.AnswerForm(request.POST)
 		if form.is_valid():

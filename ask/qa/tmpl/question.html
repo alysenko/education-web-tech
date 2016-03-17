@@ -24,5 +24,6 @@
 			{% endfor %}
 		</fieldset>
 		<div><button type="submit">Answer it!</button></div>
+		{% csrf_token %}
 	</form>
 {% endblock %}
