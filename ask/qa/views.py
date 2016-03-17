@@ -18,7 +18,7 @@ def question(request, id):
 		raise Http404
 	answers = Answer.objects.filter(question=qst)
 	answers = answers[:]
-	form = forms.AnswerForm(initial={'question': qst})
+	form = forms.AnswerForm(initial={'question_id': id})
 	return render(request, 'question.html', {
 		'qst': qst,
 		'answers': answers,
@@ -66,6 +66,10 @@ def answer(request):
 		if form.is_valid():
 			answer = form.save()
 			url = answer.question.url()
+			return HttpResponseRedirect(url)
+		else:
+			id = form.data['question_id']
+			url = reverse('question', kwargs={'id': id})
 			return HttpResponseRedirect(url)
 	else:
 		raise Http404
