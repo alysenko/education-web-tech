@@ -18,7 +18,7 @@ def question(request, id):
 		raise Http404
 	answers = Answer.objects.filter(question=qst)
 	answers = answers[:]
-	form = AnswerForm(initial={'question': qst})
+	form = forms.AnswerForm(initial={'question': qst})
 	return render(request, 'question.html', {
 		'qst': qst,
 		'answers': answers,
@@ -50,13 +50,13 @@ def popular(request):
 def ask(request):
 	if request.method == "GET":
 		form = forms.AskForm()
-		return render(request, 'ask.html', { 'form': form, })
 	elif request.method == "POST":
 		form = forms.AskForm(request.POST)
 		if form.is_valid():
 			qst = form.save()
 			url = qst.url()
 			return HttpResponseRedirect(url)
+	return render(request, 'ask.html', { 'form': form, })
 #	else:
 #		raise Http404
 

@@ -10,9 +10,11 @@ class AskForm(forms.ModelForm):
 	def clean_title(self):
 		if self.cleaned_data['title'] == "":
 			raise forms.ValidationError("Title is empty", code='empty')
+		return self.cleaned_data['title']
 	def clean_text(self):
 		if self.cleaned_data['text'] == "":
 			raise forms.ValidationError("Text is empty", code='empty')
+		return self.cleaned_data['text']
 		
 
 class AnswerForm(forms.ModelForm):
@@ -24,3 +26,4 @@ class AnswerForm(forms.ModelForm):
 	def clean_text(self):
 		if self.cleaned_data['text'] == "":
 			raise forms.ValidationError("Text is empty", code='empty')
+		return self.cleaned_data['text']
