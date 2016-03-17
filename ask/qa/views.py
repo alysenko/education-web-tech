@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.core.paginator import Page
 from django.core.urlresolvers import reverse
 from helpers import paginate
 from models import Question, Answer
+import forms
 
 def test(request, *args, **kwargs):
 	return HttpResponse('OK')
@@ -42,3 +44,16 @@ def popular(request):
                 'page': page,
                 'baseurl': url,
         })
+
+def ask(request):
+	if request.method == "GET":
+		form = forms.AskForm()
+		return render(request, 'ask.html', { 'form': form, })
+	elif request.method == "POST":
+		form = forms.AskForm(request.POST)
+		if form.is_valid():
+			qst = form.save()
+			url = qst.url()
+			return HttpResponseRedirect(url)
+#	else:
+#		raise Http404
