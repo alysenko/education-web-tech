@@ -18,9 +18,11 @@ def question(request, id):
 		raise Http404
 	answers = Answer.objects.filter(question=qst)
 	answers = answers[:]
+	form = AnswerForm(initial={'question': qst})
 	return render(request, 'question.html', {
 		'qst': qst,
 		'answers': answers,
+		'form': form,
 	})
 
 def questions(request):
@@ -57,3 +59,13 @@ def ask(request):
 			return HttpResponseRedirect(url)
 #	else:
 #		raise Http404
+
+def answer(request)
+	if request.method == "POST":
+		form = forms.AnswerForm(request.POST)
+		if form.is_valid():
+			answer = form.save()
+			url = answer.question.url()
+			return HttpResponseRedirect(url)
+	else:
+		raise Http404

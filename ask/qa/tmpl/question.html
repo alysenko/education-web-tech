@@ -14,4 +14,15 @@
 			<p>{{ answer.text }}</p>
 		</div>
 	{% endfor %}
+	<form method="POST" action="/answer/">
+		<fieldset>
+			{% for field in form %}
+				<div {% if field.errors %}style="background-color: red;"{% endif %}>
+					<label>{{ field.label }}</label>
+					<div>{{ field }}</div>
+				</div>
+			{% endfor %}
+		</fieldset>
+		<div><button type="submit">Answer it!</button></div>
+	</form>
 {% endblock %}
