@@ -59,3 +59,19 @@ class SignupForm(forms.Form):
 
 		user = authenticate(username=user.username, password=pasw)
 		return user
+
+class LoginForm(forms.Form):
+	username = forms.CharField(max_length=50)
+	password = forms.CharField(widget=forms.PasswordInput)
+
+	error_messages = {
+		'invalid': _("Corresponding user not authenticated (login or password incorrect)"),
+	}
+
+	def clean(self):
+		try:
+			User.objects.get(username=self.data.get('username'))
+		except User.DoesNotExist:
+			raise forms.ValidationError(self.error_message['invalid'], code=1)
+		return self.data
+		

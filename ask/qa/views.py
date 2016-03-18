@@ -86,3 +86,15 @@ def signup(request):
 			return HttpResponseRedirect(reverse('home'))
 	return render(request, 'signup.html', { 'form': form })
 
+def login(request):
+	if request.method == "GET":
+		form = forms.LoginForm()
+	elif request.method == "POST":
+		form = forms.LoginForm(request.POST)
+		if form.is_valid():
+			user = authenticate(username=request.POST['username'],
+					    password=request.POST['password'])
+			login(request, user)
+			return HttpResponseRedirect(reverse('home'))
+	return render(request, 'login.html', { 'form': form })
+	
