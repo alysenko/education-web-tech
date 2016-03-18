@@ -5,11 +5,11 @@ from qa.views import test
 from qa.views import popular, questions
 from qa.views import question 
 from qa.views import ask, answer
-from qa.views import signup, login
+from qa.views import signup, loginUser
 
 urlpatterns = [
 	url(r'^$', questions, name='home'),
-	url(r'^login/', login, name='login'),
+	url(r'^login/', loginUser, name='login'),
 	url(r'^signup/', signup, name='signup'),
 	url(r'^question/(?P<id>\d+)/$', question, name='question'),
 	url(r'^ask/$', ask, name='ask'),

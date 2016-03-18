@@ -78,17 +78,17 @@ class LoginForm(forms.Form):
 	password = forms.CharField(widget=forms.PasswordInput)
 
 	error_messages = {
-		'invalid': _("<username, password> pair is invalid"),
+		'invalid': "<username, password> pair is invalid",
 	}
 
 	def clean(self):
 		try:
 			user = User.objects.get(username=self.data.get('username'))
 		except User.DoesNotExist:
-			raise forms.ValidationError(self.error_message['invalid'], code=1)
+			raise forms.ValidationError(self.error_messages['invalid'], code=1)
 
 		if not user.check_password(self.data.get('password')):
-			raise forms.ValidationError(self.error_message['invalid'], code=1)
+			raise forms.ValidationError(self.error_messages['invalid'], code=1)
 
 		return self.data
 		

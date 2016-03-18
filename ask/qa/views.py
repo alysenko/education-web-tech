@@ -88,7 +88,7 @@ def signup(request):
 			return HttpResponseRedirect(reverse('home'))
 	return render(request, 'signup.html', { 'form': form })
 
-def login(request):
+def loginUser(request):
 	if request.method == "GET":
 		form = forms.LoginForm()
 	elif request.method == "POST":
