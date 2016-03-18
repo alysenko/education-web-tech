@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.core.paginator import Page
 from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, login
 from helpers import paginate
 from models import Question, Answer
 import forms
@@ -52,6 +53,7 @@ def ask(request):
 		form = forms.AskForm()
 	elif request.method == "POST":
 		form = forms.AskForm(request.POST)
+		form._user = request.user
 		if form.is_valid():
 			qst = form.save()
 			url = qst.url()
@@ -63,6 +65,7 @@ def ask(request):
 def answer(request):
 	if request.method == "POST":
 		form = forms.AnswerForm(request.POST)
+		form._user = request.user
 		if form.is_valid():
 			answer = form.save()
 			url = answer.question.url()
@@ -73,3 +76,27 @@ def answer(request):
 			return HttpResponseRedirect(url)
 	else:
 		raise Http404
+
+def signup(request):
+	if request.method == "GET":
+		form = forms.SignupForm()
+	elif request.method == "POST":
+		form = forms.SignupForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			login(request, user)
+			return HttpResponseRedirect(reverse('home'))
+	return render(request, 'signup.html', { 'form': form })
+
+def loginUser(request):
+	if request.method == "GET":
+		form = forms.LoginForm()
+	elif request.method == "POST":
+		form = forms.LoginForm(request.POST)
+		if form.is_valid():
+			user = authenticate(username=request.POST['username'],
+					    password=request.POST['password'])
+			login(request, user)
+			return HttpResponseRedirect(reverse('home'))
+	return render(request, 'login.html', { 'form': form })
+	
