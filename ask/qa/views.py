@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.core.paginator import Page
 from django.core.urlresolvers import reverse
+from django.conrtrib.auth import login
 from helpers import paginate
 from models import Question, Answer
 import forms
@@ -73,3 +74,15 @@ def answer(request):
 			return HttpResponseRedirect(url)
 	else:
 		raise Http404
+
+def signup(request):
+	if request.method == "GET"	
+		form = forms.SignupForm()
+	elif request.method == "POST":
+		form = forms.SignupForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			login(request, user)
+			return HttpResponseRedirect(reverse('home'))
+	return render(request, 'signup.html', { 'form': form })
+

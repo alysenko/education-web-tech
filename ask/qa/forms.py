@@ -1,5 +1,7 @@
 from django import forms
 from models import Question, Answer
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 class AskForm(forms.ModelForm):
 #	title = forms.CharField(max_length=255)
@@ -33,3 +35,15 @@ class AnswerForm(forms.Form):
 		return Answer.objects.create(
 					question=qst,
 					text=self.cleaned_data['text'])
+
+class SignupForm(forms.Form):
+	username = forms.CharField(maxlength=50)
+	password = forms.PasswordField()
+	email = forms.EmailField()
+
+	def save(self):
+		name = self.cleaned_data['username']
+		pasw = self.cleaned_data['password']
+		mail = self.cleaned_data['email']
+		user = User.objects.create_user(name, mail, pasw)
+		return user
