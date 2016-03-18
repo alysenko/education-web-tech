@@ -22,10 +22,11 @@ class AskForm(forms.ModelForm):
 		return self.cleaned_data['text']
 
 	def save(self, commit=True):
-		question = super(AskForm, self).save(commit=False)
-		question.authot = _user
-		if commit:
-			question.save()
+#		question = super(AskForm, self).save(commit=False)
+		question = Question(title=self.cleaned_data['title'],
+				    text=self.cleaned_data['text'],
+				    author=self._user)
+		question.save()
 		return question
 		
 
@@ -47,7 +48,7 @@ class AnswerForm(forms.Form):
 		return Answer.objects.create(
 					question=qst,
 					text=self.cleaned_data['text'],
-					author=_user)
+					author=self._user)
 
 class SignupForm(forms.Form):
 	username = forms.CharField(max_length=50)
