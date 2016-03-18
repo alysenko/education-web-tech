@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.core.paginator import Page
 from django.core.urlresolvers import reverse
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
 from helpers import paginate
 from models import Question, Answer
 import forms

@@ -41,10 +41,21 @@ class SignupForm(forms.Form):
 	password = forms.CharField(widget=forms.PasswordInput)
 	email = forms.EmailField()
 
+	def clean_username(self):
+		try:
+			User.objects.get(username=self.cleaned_data['username'])
+		except User.DoesNotExist:
+			return self.cleaned_data['username']
+		raise forms.ValidationError("User exists", code='exist')
+
 	def save(self):
-		name = self.cleaned_data['username']
+		user = User()
+		user.username = self.cleaned_data['username']
+		user.email = self.cleaned_data['email']
+
 		pasw = self.cleaned_data['password']
-		mail = self.cleaned_data['email']
-		user = User.objects.create_user(name, mail, pasw)
-		user = authenticate(username=name, pasword=pasw)
+		user.set_password(pasw)
+		user.save()
+
+		user = authenticate(username=user.username, password=pasw)
 		return user
