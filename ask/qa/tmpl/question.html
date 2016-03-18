@@ -14,4 +14,20 @@
 			<p>{{ answer.text }}</p>
 		</div>
 	{% endfor %}
+	<form method="POST" action="/answer/">
+		<fieldset>
+			{% comment "no_way_to_hide_question_id" %}
+			{% for field in form.visible_fields %}
+				<div {% if field.errors %}style="background-color: red;"{% endif %}>
+					<label>{{ field.label }}</label>
+					<div>{{ field }}</div>
+				</div>
+			{% endfor %}
+			{% endcomment %}
+			<label>{{ form.text.label  }}</label><p>{{ form.text }}</p>
+			{{ form.question_id.as_hidden }}
+		</fieldset>
+		<div><button type="submit">Answer it!</button></div>
+		{% csrf_token %}
+	</form>
 {% endblock %}

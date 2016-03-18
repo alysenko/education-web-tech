@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ block.super }} – ask Mr. Robot
+{% endblock %}
+
+{% block header %}Ask Me!{% endblock %}
+
+{% block content %}
+	<form method="POST" action="/ask/">
+		<fieldset>
+			{{ form.as_p }}
+		</fieldset>
+		<div><button type="submit">Do it!</button></div>
+		{% csrf_token %}
+	</form>
+{% endblock %}
