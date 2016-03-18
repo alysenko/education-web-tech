@@ -53,6 +53,7 @@ def ask(request):
 		form = forms.AskForm()
 	elif request.method == "POST":
 		form = forms.AskForm(request.POST)
+		form._user = request.user
 		if form.is_valid():
 			qst = form.save()
 			url = qst.url()
@@ -64,6 +65,7 @@ def ask(request):
 def answer(request):
 	if request.method == "POST":
 		form = forms.AnswerForm(request.POST)
+		form._user = request.user
 		if form.is_valid():
 			answer = form.save()
 			url = answer.question.url()

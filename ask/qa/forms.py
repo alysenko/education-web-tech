@@ -6,6 +6,9 @@ from django.contrib.auth import authenticate
 class AskForm(forms.ModelForm):
 #	title = forms.CharField(max_length=255)
 #	text = forms.CharField(widget=forms.TextArea)
+
+	_user = User
+
 	class Meta:
 		model = Question
 		fields = ['title', 'text']
@@ -17,12 +20,21 @@ class AskForm(forms.ModelForm):
 		if self.cleaned_data['text'] == "":
 			raise forms.ValidationError("Text is empty", code='empty')
 		return self.cleaned_data['text']
+
+	def save(self, commit=True):
+		question = super(AskForm, self).save(commit=False)
+		question.authot = _user
+		if commit:
+			question.save()
+		return question
 		
 
 class AnswerForm(forms.Form):
 	text = forms.CharField(widget=forms.Textarea)
 #	question_id = forms.IntegerField(widget=forms.HiddenInput)
 	question_id = forms.IntegerField()
+
+	_user = User
 
 	def clean_text(self):
 		if self.cleaned_data['text'] == "":
@@ -34,7 +46,8 @@ class AnswerForm(forms.Form):
 		qst = Question.objects.get(pk=self.cleaned_data['question_id'])
 		return Answer.objects.create(
 					question=qst,
-					text=self.cleaned_data['text'])
+					text=self.cleaned_data['text'],
+					author=_user)
 
 class SignupForm(forms.Form):
 	username = forms.CharField(max_length=50)
@@ -65,13 +78,17 @@ class LoginForm(forms.Form):
 	password = forms.CharField(widget=forms.PasswordInput)
 
 	error_messages = {
-		'invalid': _("Corresponding user not authenticated (login or password incorrect)"),
+		'invalid': _("<username, password> pair is invalid"),
 	}
 
 	def clean(self):
 		try:
-			User.objects.get(username=self.data.get('username'))
+			user = User.objects.get(username=self.data.get('username'))
 		except User.DoesNotExist:
 			raise forms.ValidationError(self.error_message['invalid'], code=1)
+
+		if not user.check_password(self.data.get('password')):
+			raise forms.ValidationError(self.error_message['invalid'], code=1)
+
 		return self.data
 		
